@@ -138,6 +138,31 @@ bool SearchElementByPos(StaticSequenceList SSL, int pos, ElemType &value)
     return true;
 }
 
+ElemType GetMinValue(StaticSequenceList &SSL)
+{
+    if (SSL.length == 0)
+    {
+        return -9999;
+    }
+    ElemType min = SSL.data[0];
+    int pos = 0;
+    for (int i = 1; i < SSL.length; i++)
+    {
+        if (min < SSL.data[i])
+        {
+            min = SSL.data[i];
+            int pos = i;
+        }
+    }
+    if (pos != SSL.length - 1)
+    {
+        SSL.data[pos] = SSL.data[SSL.length-1];
+    }
+    SSL.length--;
+    return min;
+}
+
+
 int main()
 {
     StaticSequenceList SSL;

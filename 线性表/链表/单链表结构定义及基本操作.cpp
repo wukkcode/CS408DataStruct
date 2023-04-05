@@ -92,6 +92,54 @@ bool LinkListInsertFromTail(LinkList LL)
     return true;
 }
 
+// 按位置查找
+bool LinkListSearchByPos(LinkList LL, int pos ,ElemType &node_value)
+{
+    // 判断链表是否为空
+    if (LinkListIsEmpty(LL) == true)
+    {
+        return false;
+    }
+
+    // 判断查找位置是否合理
+    if (pos < 1)
+    {
+        return false;
+    }
+    LinkNode* current_node = LL->next;
+    int count = 1;
+    while (current_node != NULL && count < pos)
+    {
+        current_node = current_node->next;
+        count++;
+    }
+    node_value = current_node->data;
+    return true;
+}
+
+// 按值查找
+bool LinkListSearchByValue(LinkList LL, ElemType node_value, int &pos)
+{
+    if (LinkListIsEmpty(LL) == true)
+    {
+        printf("Linklist is empty!\n");
+        return false;
+    }
+    LinkNode* current_node = LL->next;
+    int count = 1;
+    while (current_node != NULL && current_node->data != node_value)
+    {
+        current_node = current_node->next;
+        count++;
+    }
+    if (current_node == NULL)
+    {
+        printf("No such a node!\n");
+        return false;
+    }
+    pos = count;
+    return true;
+}
 
 int main()
 {
@@ -100,5 +148,11 @@ int main()
 //    LinkListInsertFromHead(LL);
     LinkListInsertFromTail(LL);
     TraverseLinkList(LL);
+    ElemType node_value;
+    LinkListSearchByPos(LL, 4, node_value);
+    printf("node_value = %d\n", node_value);
+    int pos;
+    LinkListSearchByValue(LL, 9, pos);
+    printf("position = %d\n", pos);
     return 0;
 }

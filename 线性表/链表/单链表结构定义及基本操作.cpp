@@ -201,17 +201,76 @@ bool QuickFindMidNode(LinkList LL, LinkNode* &target_node)
     while (two_steps_node != NULL)
     {
         two_steps_node = two_steps_node->next;
+        // 只有一个节点
         if (two_steps_node == NULL)
         {
             break;
         }
         two_steps_node = two_steps_node->next;
+        // 只有两个节点会推出循环，即two_steps_node == NULL
         if (two_steps_node != NULL)
         {
             one_step_node = one_step_node->next;
         }
     }
     target_node = one_step_node;
+    return true;
+}
+
+// 链表原地逆置（三指针法，这算法真的简单易懂），考试很容易考，也是很经典的算法，注意思考
+bool ReverseLinkListByThreePointers(LinkList LL)
+{
+    // 判断链表是否为空
+    if (LinkListIsEmpty(LL) == true)
+    {
+        return false;
+    }
+    // 定义三指针
+    LinkNode *first_node, *second_node, *third_node;
+    first_node = LL->next;
+    // 只有一个节点
+    if (first_node == NULL)
+    {
+        return false;
+    }
+    second_node = first_node->next;
+    // 只有两个节点
+    if (second_node == NULL)
+    {
+        return false;
+    }
+    third_node = second_node->next;
+    while(third_node != NULL)
+    {
+        second_node->next = first_node;
+        first_node = second_node;
+        second_node = third_node;
+        third_node = third_node->next;
+    }
+    second_node->next = first_node;
+    LL->next->next = NULL; // 第一个节点现在成为尾部节点
+    LL->next = second_node;
+    return true;
+}
+
+// 链表原地逆置（头插法），经典的算法，注意思考
+bool ReverseLinkListByHeadInsert(LinkList LL)
+{
+    // 判断链表是否为空
+    if (LinkListIsEmpty(LL) == true)
+    {
+        return false;
+    }
+    LinkNode *current_node, *next_node;
+    current_node = LL->next;
+    LL->next = NULL;
+    while (current_node != NULL)
+    {
+        next_node = current_node->next;
+        current_node->next = LL->next;
+        LL->next = current_node;
+        current_node = next_node;
+    }
     return true;
 }
 
@@ -236,5 +295,8 @@ int main()
     TraverseLinkList(LL);
     QuickFindMidNode(LL, target_node);
     printf("Mid node = %d\n", target_node->data);
+    ReverseLinkListByThreePointers(LL);
+//    ReverseLinkListByHeadInsert(LL);
+    TraverseLinkList(LL);
     return 0;
 }

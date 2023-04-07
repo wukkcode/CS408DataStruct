@@ -22,3 +22,8 @@ bool InitStaticLinkList(StaticLinkList SLL)
     return true;
 }
 
+int main()
+{
+    
+}
+

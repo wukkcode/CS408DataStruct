@@ -19,13 +19,13 @@ void InitSharedSequenceStack(SharedSequenceStack &SSS)
 }
 
 // 判断共享栈是否为空
-bool SharedSequenceStackIsEmpty(SharedSequenceStack SSS, int stack_number)
+bool SharedSequenceStackIsEmpty(SharedSequenceStack SSS, int stack_id)
 {
-    if (stack_number == 1 && SSS.top1 == -1)
+    if (stack_id == 1 && SSS.top1 == -1)
     {
         return true;
     }
-    if (stack_number == 2 && SSS.top2 == MaxSize)
+    if (stack_id == 2 && SSS.top2 == MaxSize)
     {
         return true;
     }

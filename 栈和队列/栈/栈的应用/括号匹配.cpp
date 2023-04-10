@@ -101,7 +101,7 @@ bool BracketsMatching(char brackets_str[], int length)
 
 int main()
 {
-    char brackets_str[] = "(){}[]";
+    char brackets_str[] = "((){}[])";
     
     if (BracketsMatching(brackets_str, strlen(brackets_str)))
     {

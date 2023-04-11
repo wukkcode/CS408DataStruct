@@ -48,7 +48,7 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
     return true;
 }
 
-// 删除指定范围的元素
+// 删除顺序表指定范围的元素
 bool DeleteAllElementAtRange(StaticSequenceList &SSL, ElemType left_value, ElemType right_value)
 {
     if (StaticSequenceListIsEmpty(SSL) == true)

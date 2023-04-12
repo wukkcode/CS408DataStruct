@@ -17,7 +17,7 @@ typedef struct
     int length;
 } DynamicCharacterString;
 
-// 串的初始化
+// 串的清空
 void ClearString(StaticCharacterString &SCS)
 {
     SCS.length = 0;
@@ -125,7 +125,7 @@ bool ConcatString(StaticCharacterString &NewSCS, StaticCharacterString SCS1, Sta
     }
 }
 
-// 定位操作：假设母串和子串都不为空，且子串的长度小于等于母船的长度
+// 定位操作：假设母串和子串都不为空，且子串的长度小于等于母串的长度（也叫朴素模式匹配）
 int IndexSubString(StaticCharacterString MomString, StaticCharacterString SubString)
 {
     StaticCharacterString result_substring;

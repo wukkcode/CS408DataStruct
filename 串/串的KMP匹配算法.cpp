@@ -25,24 +25,43 @@ bool StringAssign(StaticCharacterString &SCS, char *string_value)
     return true;
 }
 
-// 串的朴素模式匹配算法(即找出所有的子串与模式串相比较)
-int StringNaivePatternMatching(StaticCharacterString MainString, StaticCharacterString PatternString)
+// 求KMP算法中的next数组
+void GetKMPNextArray(StaticCharacterString PatternString, int next[])
+{
+    next[1] = 0;
+    int pattern_index = 1;
+    int next_tool = 0;
+    while (pattern_index <= PatternString.length)
+    {
+        if (next_tool == 0 || PatternString.string_data[pattern_index] == PatternString.string_data[next_tool])
+        {
+            pattern_index++;
+            next_tool++;
+            next[pattern_index] = next_tool;
+        }
+        else
+        {
+            next_tool = next[next_tool];
+        }
+    }
+}
+
+// 串的KMP模式匹配算法(主串指针不回朔)
+int StringKMPPatternMatching(StaticCharacterString MainString, StaticCharacterString PatternString, int next[])
 {
     int main_index = 1;
     int pattern_index = 1;
     while (main_index <= MainString.length && pattern_index <= PatternString.length)
     {
-        if (MainString.string_data[main_index] == PatternString.string_data[pattern_index])
+        if (pattern_index == 0 || MainString.string_data[main_index] == PatternString.string_data[pattern_index])  
         {
             main_index++;
             pattern_index++;
-        }
+        } 
         else
         {
-            main_index = main_index - pattern_index + 2;
-            pattern_index = 1;
+            pattern_index = next[pattern_index];
         }
-
     }
     if (pattern_index > PatternString.length)
     {
@@ -56,7 +75,7 @@ int main()
     StaticCharacterString MainString;
     StaticCharacterString PatternString;
     char main_string_value[20] = "hello world";
-    char pattern_string_value[20] = "x";
+    char pattern_string_value[20] = "xwqweqweqehello";
     StringAssign(MainString, main_string_value);
     StringAssign(PatternString, pattern_string_value);
     int index = StringNaivePatternMatching(MainString, PatternString);

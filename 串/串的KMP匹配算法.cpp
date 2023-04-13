@@ -3,6 +3,13 @@
 #include <string.h>
 #define MaxLength 50
 
+/*
+KMP算法难点在于next数组的求解，读者如果难以理解的话可以人工运行一下代码
+其实要点就是可以个图，你就会发现先考虑最好情况，如果最好情况不满足向前偏移即可继续对比...
+推荐一个B站视频：BV16X4y137qw
+希望可以对读者加深理解
+*/
+
 // 静态分配的顺序串
 typedef struct
 {
@@ -53,11 +60,11 @@ int StringKMPPatternMatching(StaticCharacterString MainString, StaticCharacterSt
     int pattern_index = 1;
     while (main_index <= MainString.length && pattern_index <= PatternString.length)
     {
-        if (pattern_index == 0 || MainString.string_data[main_index] == PatternString.string_data[pattern_index])  
+        if (pattern_index == 0 || MainString.string_data[main_index] == PatternString.string_data[pattern_index])
         {
             main_index++;
             pattern_index++;
-        } 
+        }
         else
         {
             pattern_index = next[pattern_index];
@@ -75,10 +82,12 @@ int main()
     StaticCharacterString MainString;
     StaticCharacterString PatternString;
     char main_string_value[20] = "hello world";
-    char pattern_string_value[20] = "xwqweqweqehello";
+    char pattern_string_value[20] = "o w";
     StringAssign(MainString, main_string_value);
     StringAssign(PatternString, pattern_string_value);
-    int index = StringNaivePatternMatching(MainString, PatternString);
+    int next[strlen(pattern_string_value)+1];
+    GetKMPNextArray(PatternString, next);
+    int index = StringKMPPatternMatching(MainString, PatternString, next);
     printf("index = %d\n", index);
     return 0;
 }

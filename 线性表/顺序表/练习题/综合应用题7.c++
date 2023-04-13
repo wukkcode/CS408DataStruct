@@ -46,23 +46,57 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
     return true;
 }
 
-// 删除有序顺序表中重复的元素
-StaticSequenceList MergeTwoSequenceListS()
+// 合并两个顺序表并返回
+bool MergeTwoSequenceListS(StaticSequenceList SSL1, StaticSequenceList SSL2, StaticSequenceList &NewSSL)
 {
-    
+    if (SSL1.length + SSL2.length > MaxSize)
+    {
+        return false;
+    }
+    int index1 = 0;
+    int index2 = 0;
+    int new_index = 0;
+    while (index1 < SSL1.length && index2 < SSL2.length)
+    {
+        if (SSL1.data[index1] <= SSL2.data[index2])
+        {
+            NewSSL.data[new_index++] = SSL1.data[index1++];
+        }
+        else
+        {
+            NewSSL.data[new_index++] = SSL2.data[index2++];
+        }
+    }
+    while (index1 < SSL1.length)
+    {
+        NewSSL.data[new_index++] = SSL1.data[index1++];
+    }
+    while (index2 < SSL2.length)
+    {
+        NewSSL.data[new_index++] = SSL2.data[index2++];
+    }
+    NewSSL.length = new_index;
+    return true;
 }
 
 int main()
 {
-    StaticSequenceList SSL;
-    InitStaticSequenceList(SSL);
-    SSL.length = 5;
-    for (int i = 0; i<SSL.length; i++)
+    StaticSequenceList SSL1;
+    InitStaticSequenceList(SSL1);
+    StaticSequenceList SSL2;
+    InitStaticSequenceList(SSL2);
+    SSL1.length = 5;
+    SSL2.length = 5;
+    for (int i = 0; i<SSL1.length; i++)
     {
-        SSL.data[i] = i+1;
+        SSL1.data[i] = i+1;
+        SSL2.data[i] = SSL1.data[i]+ 5;
     }
-    TraverseStaticSequenceList(SSL);
-    DeleteAllElementAtRange_fun2(SSL, 2, 3);
-    TraverseStaticSequenceList(SSL);
+    TraverseStaticSequenceList(SSL1);
+    TraverseStaticSequenceList(SSL2);
+    StaticSequenceList NewSSL;
+    InitStaticSequenceList(NewSSL);
+    MergeTwoSequenceListS(SSL1, SSL2, NewSSL);
+    TraverseStaticSequenceList(NewSSL);
     return 0;
 }

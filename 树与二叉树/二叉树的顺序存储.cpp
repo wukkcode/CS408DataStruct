@@ -74,6 +74,20 @@ int main()
         SBT[i].data = i;
         SBT[i].empty_status = false;
     } 
-
+    SBTNode SBTN;
+    FindLeftChildNode(SBT, 2, 12, SBTN);
+    printf("left child = %d\n", SBTN.data);
+    FindRightChildNode(SBT, 2, 12, SBTN);
+    printf("right child = %d\n", SBTN.data);
+    FindFatherNode(SBT, 4, 12, SBTN);
+    printf("father = %d\n", SBTN.data);
+    if (SBTNodeIsLeafNode(SBT, 2, 12) == true)
+    {
+        printf("current node is a leaf node!\n");
+    }
+    else
+    {
+        printf("current node is not a leaf node!\n");
+    }
     return 0;
 }

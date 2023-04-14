@@ -53,6 +53,19 @@ void GetKMPNextArray(StaticCharacterString PatternString, int next[])
     }
 }
 
+// 通过next数组求出nextval数组对KMP算法进行优化
+void GetKMPNextValueArray(StaticCharacterString PatternString, int nextval[])
+{
+    int pattern_index;
+    for (pattern_index = 2; pattern_index <= PatternString.length; pattern_index++)
+    {
+        if (PatternString.string_data[pattern_index] == PatternString.string_data[nextval[pattern_index]])
+        {
+            nextval[pattern_index] = nextval[nextval[pattern_index]];
+        }
+    }
+}
+
 // 串的KMP模式匹配算法(主串指针不回朔)
 int StringKMPPatternMatching(StaticCharacterString MainString, StaticCharacterString PatternString, int next[])
 {

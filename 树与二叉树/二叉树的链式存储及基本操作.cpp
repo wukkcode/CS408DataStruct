@@ -100,6 +100,23 @@ bool LevelOrderBinaryTree(BinaryTree BT)
     return true;
 }
 
+// 计算二叉树的深度（高度）
+int GetBinaryTreeDepth(BinaryTree BT)
+{
+    int left_tree_depth = 0;
+    int right_tree_depth = 0;
+    if (BT == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        left_tree_depth = GetBinaryTreeDepth(BT->left_child);
+        right_tree_depth = GetBinaryTreeDepth(BT->right_child);
+    }
+    return left_tree_depth >= right_tree_depth ? left_tree_depth + 1 : right_tree_depth + 1;
+}
+
 int main()
 {
     LinkListQueue LLQ;
@@ -125,5 +142,7 @@ int main()
     printf("Post order sequence is:");
     PostOrderBinaryTree(BT);
     printf("\n");
+    int depth = GetBinaryTreeDepth(BT);
+    printf("Binary tree depth is:%d", depth);
     return 0;
 }

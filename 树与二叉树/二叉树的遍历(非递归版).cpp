@@ -89,6 +89,7 @@ bool PreOrderBinaryTree(BinaryTree BT)
 }
 
 // 后序遍历（非递归版）
+// 参考：https://zhuanlan.zhihu.com/p/80578741?utm_id=0
 bool PostOrderBinaryTree(BinaryTree BT)
 {
     if (BT == NULL)

@@ -1,7 +1,9 @@
 #include "auxiliary_queue.h"
 
 BinaryTreeNode* pre_tool_node = NULL;
+BinaryTreeNode* post_tool_node = NULL;
 BinaryTreeNode* final_pre_node = NULL;
+BinaryTreeNode* final_post_node = NULL;
 ElemType tree_node_value;
 
 // 通过层序遍历构建二叉树
@@ -37,7 +39,7 @@ bool CreateBinaryTreeByLevelOrder(BinaryTree &BT, ElemType tree_node_value, Link
     return true;
 }
 
-
+// 找前驱节点
 void FindPreNode(BinaryTree BT)
 {
     if (BT->data != tree_node_value)
@@ -47,7 +49,15 @@ void FindPreNode(BinaryTree BT)
     else
     {
         final_pre_node = pre_tool_node;
-        return;
+    }
+}
+
+// 找后继节点
+void FindPostNode(BinaryTree BT)
+{
+    if (post_tool_node != NULL && post_tool_node->data == tree_node_value)
+    {
+        final_post_node = BT;
     }
 }
 
@@ -60,6 +70,8 @@ bool PreOrderBinaryTree(BinaryTree BT)
     }
     printf("%-2c", BT->data);
     FindPreNode(BT);
+    FindPostNode(BT);
+    post_tool_node = BT;
     PreOrderBinaryTree(BT->left_child);
     PreOrderBinaryTree(BT->right_child);
     return true;
@@ -75,6 +87,8 @@ bool InOrderBinaryTree(BinaryTree BT)
     InOrderBinaryTree(BT->left_child);
     printf("%-2c", BT->data);
     FindPreNode(BT);
+    FindPostNode(BT);
+    post_tool_node = BT;
     InOrderBinaryTree(BT->right_child);
     return true;
 }
@@ -90,6 +104,8 @@ bool PostOrderBinaryTree(BinaryTree BT)
     PostOrderBinaryTree(BT->right_child);
     printf("%-2c", BT->data);
     FindPreNode(BT);
+    FindPostNode(BT);
+    post_tool_node = BT;
     return true;
 }
 
@@ -109,15 +125,21 @@ int main()
     printf("Pre order sequence is:");
     PreOrderBinaryTree(BT);
     printf("\n");
-    printf("The pre node of 'e' is '%c' node in pre sequence!\n", final_pre_node->data);
+    printf("The pre node of 'e' is '%c' node in pre sequence!\n", final_pre_node == NULL ? 0 : final_pre_node->data);
+    printf("The post node of 'e' is '%c' node in pre sequence!\n", final_post_node->data);
     pre_tool_node = NULL;
+    post_tool_node = NULL;
     printf("In order sequence is:");
     InOrderBinaryTree(BT);
     printf("\n");
     printf("The pre node of 'e' is '%c' node in mid sequence!\n", final_pre_node->data);
+    printf("The post node of 'e' is '%c' node in mid sequence!\n", final_post_node->data);
     pre_tool_node = NULL;
+    post_tool_node = NULL;
     printf("Post order sequence is:");
     PostOrderBinaryTree(BT);
     printf("\n");
     printf("The pre node of 'e' is '%c' node in post sequence!\n", final_pre_node->data);
+    printf("The post node of 'e' is '%c' node in post sequence!\n", final_post_node->data);
+    return 0;
 }

@@ -180,6 +180,75 @@ bool ThreadedBinaryTreeByInOrderFinalProcess(ThreadBinaryTree TBT)
     return true;
 }
 
+// 中序遍历线索二叉树(找后继)
+ThreadBinaryTreeNode* FindFirstTreeNode(ThreadBinaryTreeNode* current_tree_node)
+{
+    while (current_tree_node->left_tag == 0)
+    {
+        current_tree_node = current_tree_node->left_child;
+    }
+    return current_tree_node;
+}
+
+ThreadBinaryTreeNode* FindNextTreeNode(ThreadBinaryTreeNode* current_tree_node)
+{
+    if (current_tree_node->right_tag == 0)
+    {
+        return FindFirstTreeNode(current_tree_node->right_child); // 无线索找最左下的节点
+    }
+    else
+    {
+        return current_tree_node->right_child; // 返回线索
+    }
+}
+
+bool InOrderThreadBinaryTree(ThreadBinaryTree TBT)
+{
+    if (TBT == NULL)
+    {
+        return false;
+    }
+    for (ThreadBinaryTreeNode* current_tree_node = FindFirstTreeNode(TBT); current_tree_node != NULL; current_tree_node = FindNextTreeNode(current_tree_node))
+    {
+        printf("%-2c", current_tree_node->data);
+    }
+    return true;
+}
+
+// （逆向）中序遍历线索二叉树（找前驱）
+ThreadBinaryTreeNode* FindLastTreeNode(ThreadBinaryTreeNode* current_tree_node)
+{
+    while (current_tree_node->right_tag == 0)
+    {
+        current_tree_node = current_tree_node->right_child;
+    }
+    return current_tree_node;
+}
+
+ThreadBinaryTreeNode* FindPreTreeNode(ThreadBinaryTreeNode* current_tree_node)
+{
+    if (current_tree_node->left_tag == 0)
+    {
+        return FindLastTreeNode(current_tree_node->left_child);
+    }
+    else
+    {
+        return current_tree_node->left_child;
+    }
+}
+
+bool ReverseInOrderThreadTree(ThreadBinaryTree TBT)
+{
+    if (TBT == NULL)
+    {
+        return false;
+    }
+    for (ThreadBinaryTreeNode* current_tree_node = FindLastTreeNode(TBT); current_tree_node != NULL; current_tree_node = FindPreTreeNode(current_tree_node))
+    {
+        printf("%-2c", current_tree_node->data);
+    }
+}
+
 // 通过先序遍历将二叉树线索化，可能会发生爱的魔力转圈圈问题（读者画个只有左子树的树进行理解）
 bool ThreadedBinaryTreeByPreOrder(ThreadBinaryTree TBT, ThreadBinaryTreeNode* &pre_tree_node)
 {
@@ -209,7 +278,6 @@ bool ThreadedBinaryTreeByPreOrder(ThreadBinaryTree TBT, ThreadBinaryTreeNode* &p
     return true;
 }
 
-// 通过后序遍历将二叉树线索化
 bool ThreadedBinaryTreeByPreOrderFinalProcess(ThreadBinaryTree TBT)
 {
     if (TBT == NULL)
@@ -276,11 +344,17 @@ int main()
     printf("Level order is:");
     LevelThreadBinaryTree(TBT);
     printf("\n");
-//    printf("Start InOrder Threaded!!!\n");
-//    ThreadedBinaryTreeByInOrderFinalProcess(TBT);
+    printf("Start InOrder Threaded!!!\n");
+    ThreadedBinaryTreeByInOrderFinalProcess(TBT);
+    printf("In order is:");
+    InOrderThreadBinaryTree(TBT);
+    printf("\n");
+    printf("Reverse in order is:");
+    ReverseInOrderThreadTree(TBT);
+    printf("\n");
 //    printf("Start PreOrder Threaded!!!\n");
 //    ThreadedBinaryTreeByPreOrderFinalProcess(TBT);
-    printf("Start PostOrder Threaded!!!\n");
-    ThreadedBinaryTreeByPostOrderFinalProcess(TBT);
+//    printf("Start PostOrder Threaded!!!\n");
+//    ThreadedBinaryTreeByPostOrderFinalProcess(TBT);
     return 0;
 }

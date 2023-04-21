@@ -51,11 +51,11 @@ typedef struct
 // 孩子兄弟表示法（纯链式存储）
 /*
 优点：类似于二叉树的链式存储，所以可以很方便的实现树转换为二叉树
-森林也可用于孩子兄弟表示法存储
+森林也可用于孩子兄弟表示法存储，但需要注意的是，森林中各个树的根节点需要视作平级的兄弟节点关系
 */
 typedef struct ChildrBrotherNotaionNode
 {
     ElemType data;
     struct ChildBrotherNotationNode* first_child;
-    struct ChildBrotherNotationNode* next_brother;
+    struct ChildBrotherNotationNode* next_sibling;
 }ChildBrotherNotationNode, *ChildBrotherNotationTree;

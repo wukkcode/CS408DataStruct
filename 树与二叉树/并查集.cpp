@@ -38,6 +38,9 @@ ParentNotationNode FindInDisjointSet(ParentNotationNode disjoint_set[], int node
 }
 
 // 优化查找操作，降低查找路径（这个可牛逼了）
+/*
+时间复杂度可以到O(α(n))
+*/
 ParentNotationNode OptimizeFind(ParentNotationNode disjoint_set[], int node_index)
 {
     int root_index = node_index;

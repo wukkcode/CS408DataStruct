@@ -26,15 +26,35 @@ void InitDisjointSet(ParentNotationNode disjoint_set[])
 查找操作，从下往上，查找效率跟树高相关，最坏时间复杂度为O(n)
 如果想要提高查找效率，则可降低树高进行查找（合并优化）
 */
-int FindInDisjointSet(ParentNotationNode disjoint_set[], ParentNotationNode node)
+ParentNotationNode FindInDisjointSet(ParentNotationNode disjoint_set[], int node_index)
 {
-    int node_index = node.parent_node_index;
-    while(node_index >= 0)
+    int root_index = node_index;
+    // 找到根节点
+    while (disjoint_set[root_index].parent_node_index >= 0)
     {
-        node_index = disjoint_set[node_index].parent_node_index;
+        root_index = disjoint_set[node_index].parent_node_index;
     }
-    return node_index;
+    return disjoint_set[root_index];
 }
+
+// 优化查找操作，降低查找路径（这个可牛逼了）
+ParentNotationNode OptimizeFind(ParentNotationNode disjoint_set[], int node_index)
+{
+    int root_index = node_index;
+    // 找到根节点
+    while (disjoint_set[root_index].parent_node_index >= 0)
+    {
+        root_index = disjoint_set[node_index].parent_node_index;
+    }
+    // 路径上的节点挨个连接到根节点
+    while (root_index != node_index)
+    {
+        int temp_index = disjoint_set[node_index].parent_node_index;
+        disjoint_set[node_index].parent_node_index = root_index;
+        node_index = temp_index;
+    }
+    return disjoint_set[root_index];
+}   
 
 // 合并操作，将两个子树进行合并
 /*
@@ -42,7 +62,7 @@ int FindInDisjointSet(ParentNotationNode disjoint_set[], ParentNotationNode node
 */
 bool UnionDisjointSet(ParentNotationNode disjoint_set[], int root1_index, int root2_index)
 {
-    if (root1_index == root2_index)
+    if (disjoint_set[root1_index].parent_node_index == disjoint_set[root2_index].parent_node_index)
     {
         return false;
     }
@@ -56,7 +76,7 @@ bool UnionDisjointSet(ParentNotationNode disjoint_set[], int root1_index, int ro
 */
 bool OptimizeUnion(ParentNotationNode disjoint_set[], int root1_index, int root2_index)
 {
-    if (root1_index <= root2_index)
+    if (disjoint_set[root1_index].parent_node_index <= disjoint_set[root2_index].parent_node_index)
     {
         disjoint_set[root2_index].parent_node_index = root1_index;
         disjoint_set[root1_index].parent_node_index += root2_index;

@@ -1,5 +1,6 @@
 /*
-7. 将两个有序顺序表合并为一个新的有序顺序表，并由函数返回结果顺序表。
+8. 已知在一维数组中依次存放两个线姓表(a1, a2,..., an)和(b1, b2,..., bn)。编写一
+个函数，将数组中两个顺序表的位置互换，即将(b1, b2,..., bn)放在(a1, a2,..., an)的前面。
 */
 
 #include <stdio.h>
@@ -46,23 +47,33 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
     return true;
 }
 
-// 删除有序顺序表中重复的元素
-StaticSequenceList MergeTwoSequenceListS()
+// 交换两个顺序表的位置
+/* 
+算法思想：
+1. 先将静态线性表中的所有元素逆置
+2. 然后将各个每个线性表中的元素逆置
+*/
+bool ReverseStaticSequenceList(StaticSequenceList SSL)
 {
-    
+    int left_index = 0;
+    int right_index = SSL.length;
+    int mid = (left_index + right_index) / 2;
+    for (int i = 0; i < mid; i++)
+    {
+        
+    }
 }
 
 int main()
 {
     StaticSequenceList SSL;
     InitStaticSequenceList(SSL);
-    SSL.length = 5;
-    for (int i = 0; i<SSL.length; i++)
+    SSL.length = 13;
+    for (int i = 0; i<6; i++)
     {
         SSL.data[i] = i+1;
+        SSL.data[i+6] = i+1;
     }
-    TraverseStaticSequenceList(SSL);
-    DeleteAllElementAtRange_fun2(SSL, 2, 3);
     TraverseStaticSequenceList(SSL);
     return 0;
 }

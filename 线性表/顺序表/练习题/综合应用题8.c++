@@ -41,27 +41,33 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
     }
     for (int i = 0; i < SSL.length; i++)
     {
-        printf("%-2d", SSL.data[i]);
+        printf("%d", SSL.data[i]);
+        printf(" ");
     }
     printf("\n");
     return true;
 }
 
 // 交换两个顺序表的位置
-/* 
+/*
 算法思想：
 1. 先将静态线性表中的所有元素逆置
 2. 然后将各个每个线性表中的元素逆置
 */
-bool ReverseStaticSequenceList(StaticSequenceList SSL)
+bool ReverseStaticSequenceList(StaticSequenceList &SSL, int left_pos, int right_pos)
 {
-    int left_index = 0;
-    int right_index = SSL.length;
-    int mid = (left_index + right_index) / 2;
-    for (int i = 0; i < mid; i++)
+    if (StaticSequenceListIsEmpty(SSL) == true)
     {
-        
+        return false;
     }
+    int mid_pos = (left_pos + right_pos) / 2;
+    for (int i = left_pos - 1; i < mid_pos; i++)
+    {
+        ElemType temp_element = SSL.data[i];
+        SSL.data[i] = SSL.data[right_pos - (i - left_pos+1) - 1];
+        SSL.data[right_pos - (i - left_pos + 1) - 1] = temp_element;
+    }
+    return true;
 }
 
 int main()
@@ -69,11 +75,23 @@ int main()
     StaticSequenceList SSL;
     InitStaticSequenceList(SSL);
     SSL.length = 13;
-    for (int i = 0; i<6; i++)
+    for (int i = 0; i<13; i++)
     {
-        SSL.data[i] = i+1;
-        SSL.data[i+6] = i+1;
+        if (i < 6)
+        {
+           SSL.data[i] = i+1;
+        }
+        else
+        {
+            SSL.data[i] = 10 + i;
+        }
     }
+    TraverseStaticSequenceList(SSL);
+    ReverseStaticSequenceList(SSL, 1, 13);
+    TraverseStaticSequenceList(SSL);
+    ReverseStaticSequenceList(SSL, 1, 7);
+    TraverseStaticSequenceList(SSL);
+    ReverseStaticSequenceList(SSL, 8, 13);
     TraverseStaticSequenceList(SSL);
     return 0;
 }

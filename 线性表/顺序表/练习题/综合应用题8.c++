@@ -61,11 +61,11 @@ bool ReverseStaticSequenceList(StaticSequenceList &SSL, int left_pos, int right_
         return false;
     }
     int mid_pos = (left_pos + right_pos) / 2;
-    for (int i = left_pos - 1; i < mid_pos; i++)
+    for (int i = 0; i <= mid_pos - left_pos; i++)
     {
-        ElemType temp_element = SSL.data[i];
-        SSL.data[i] = SSL.data[right_pos - (i - left_pos+1) - 1];
-        SSL.data[right_pos - (i - left_pos + 1) - 1] = temp_element;
+        ElemType temp_element = SSL.data[i + left_pos - 1];
+        SSL.data[i + left_pos - 1] = SSL.data[right_pos - i - 1];
+        SSL.data[right_pos - i - 1] = temp_element;
     }
     return true;
 }

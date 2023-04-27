@@ -65,35 +65,7 @@ bool LinkListQueueIsEmpty(LinkListQueue LLQ)
 }
 
 // 进队列
-bool EnLinkListQueue(LinkListQueue &LLQ, VertexNode* vt)
-{
-    LinkNode* new_node = (LinkNode *)malloc(sizeof(LinkNode));
-    if (new_node == NULL)
-    {
-        return false;
-    }
-    new_node->data = vt;
-    new_node->next = NULL;
-    LLQ.rear->next = new_node;
-    LLQ.rear = new_node;
-    return true;
-}
+bool EnLinkListQueue(LinkListQueue &LLQ, int vertex_index);
 
 // 出队列
-bool DeLinkListQueue(LinkListQueue &LLQ, VertexNode* &vt)
-{
-    // 判断队列是否为空
-    if (LinkListQueueIsEmpty(LLQ) == true)
-    {
-        return false;
-    }
-    LinkNode* free_node = LLQ.front->next;
-    vt = free_node->data;
-    LLQ.front->next = free_node->next;
-    if (free_node == LLQ.rear)
-    {
-        LLQ.rear = LLQ.front;
-    }
-    free(free_node);
-    return true;
-}
+bool DeLinkListQueue(LinkListQueue &LLQ, int &current_vertex_index);

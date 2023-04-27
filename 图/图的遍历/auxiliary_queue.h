@@ -18,7 +18,7 @@ typedef struct VertexNode
 {
     VertexType data; // 节点信息
     ArcNode* next; // 指向第一条边
-    int vertex_index; // 顶点在数组中的下标
+    // int vertex_index; // 顶点在数组中的下标，可以添加合适的结构成员辅助操作
 } VertexNode, AdjacencyList[MaxVertexNum];
 
 // 图的邻接表存储

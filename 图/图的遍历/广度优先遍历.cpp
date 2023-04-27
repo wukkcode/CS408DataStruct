@@ -24,7 +24,7 @@ void BreadthFirstSearch(AdjacencyListGraph ALG, int current_vertex_index, LinkLi
             {
                 VistVertex(neighbor_vertex_index);
                 EnLinkListQueue(LLQ, neighbor_vertex_index);
-                visit_status[neighbor_vertex_index] = true
+                visit_status[neighbor_vertex_index] = true;
             }
         }
     }
@@ -46,3 +46,31 @@ void BreadthFirstSearchTraverse(AdjacencyListGraph ALG)
         }
     }
 }
+
+// 算法思想
+/*
+和树的广度优先遍历一样，要通过当前节点找到与其相连的所有节点
+*/
+
+// 算法的性能分析
+/*
+1. 空间复杂度
+主要来自我们构建的辅助队列，在最坏情况下，其他所有顶点都需要入队，所以空间复杂度为O(|V|)
+在程序实现我们需要注意的是入队发生在for循环找当前节点的邻接顶点的时候
+出队发生在当前节点已经全部找到邻接顶点了，需要找队列中的下一个顶点的邻接顶点
+---
+2. 时间复杂度
+我们需要访问每一个顶点；还需要在for循环中探索所有的边（邻接顶点）
+---
+对于邻接矩阵存储的图：
+访问|V|个顶点需要O(|V|)的时间
+查找每个顶点的邻接点都需要O(|V|)（遍历邻接矩阵的某一行/某一列），有|V|个顶点
+则访问邻接顶点需要O(|V|^2)
+所以总的时间复杂度为O(|V| + |V|^2) = O(|V|^2)
+---
+对于邻接表所存储的图
+访问|V|个顶点需要O(|V|)的时间
+查找每个顶点的邻接点都需要遍历该顶点的边链表，总共有2|E|个边节点（双倍边节点存储），而对于无向图如果要遍历
+所有顶点的邻接点则需要查找2|E|次，所以查找所有的邻接点的时间复杂度为O(|E|)
+所以总的时间复杂度为O(|V| + |E|)
+*/

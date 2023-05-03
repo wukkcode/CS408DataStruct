@@ -9,3 +9,6 @@
 # 幕布知识点及错题记录
 ## 数组结构
 https://www.mubucm.com/doc/4uRLDGsGgXv
+## 组成原理
+## 操作系统
+## 计算机网络

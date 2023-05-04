@@ -44,7 +44,7 @@ bool TopologicalSorting(AdjacencyListGraph ALG, int vertex_in_degree[MaxVertexNu
     {
         PopLinkStack(LS, vertex_index);
         topological_sorting_sequence[print_node_num++] = vertex_index;
-        // 找到其当前顶点的所有邻接顶点，对其入度数组进行更改
+        // 找到其当前顶点的所有邻接顶点，对其入度数组进行更改（删掉当前顶点的出边）
         for (ArcNode* adjacency_arc = ALG.vertex_nodes[vertex_index].first_arc; adjacency_arc; adjacency_arc = adjacency_arc->next_arc)
         {
             int next_vertex_index = adjacency_arc->vertex_node_index;

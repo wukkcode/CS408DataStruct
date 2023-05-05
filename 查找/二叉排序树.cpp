@@ -86,6 +86,7 @@ bool InsertBinarySearchTreeUsingRecursion(BinaryTree &BST, ElemType element_valu
     {
         return InsertBinarySearchTreeUsingRecursion(BST->right_child, element_value);
     }
+    return true;
 }
 
 // 创建二叉排序树（调用插入操作）
@@ -108,6 +109,7 @@ bool InOrderBinarySearchTree(BinaryTree BST)
     InOrderBinarySearchTree(BST->left_child);
     printf("%-4d", BST->data);
     InOrderBinarySearchTree(BST->right_child);
+    return true;
 }
 
 // 二叉排序树的查找

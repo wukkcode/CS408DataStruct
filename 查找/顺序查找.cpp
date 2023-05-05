@@ -23,12 +23,27 @@ bool InitDynamicSequenceList(DynamicSequenceList &DSL, int length)
     return true;
 }
 
-// 查找操作
+// 顺序查找
 int SearchSequenceList(DynamicSequenceList DSL, int element_value)
 {
-    DSL.data[0] = element_value; // 存储哨兵
+    DSL.data[0] = element_value; // 存储哨兵，循环查找的时候不需要判断越界
     int pos_index;
     for (pos_index = DSL.length-1; DSL.data[pos_index] != element_value; pos_index--);
+    return pos_index;
+}
+
+// 顺序查找（顺序表有序），后序比较可省略
+int SearchSequenceListUsingSortedList(DynamicSequenceList SDSL, int element_value)
+{
+    SDSL.data[0] = element_value; // 存储哨兵，循环查找的时候不需要判断越界
+    int pos_index;
+    for (pos_index = SDSL.length-1; SDSL.data[pos_index] != element_value; pos_index--)
+    {
+        if (element_value > SDSL.data[pos_index])
+        {
+            return 0;
+        }
+    }
     return pos_index;
 }
 

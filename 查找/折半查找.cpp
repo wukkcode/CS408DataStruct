@@ -12,7 +12,7 @@ typedef struct
 int BinarySearch(StaticSequenceList SSL, int element_value)
 {
     int low_index = 0;
-    int high_index = 9;
+    int high_index = SSL.length - 1;
     int mid_index;
     while (low_index <= high_index) // 注意判断条件是小于等于
     {

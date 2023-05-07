@@ -112,27 +112,48 @@ bool InOrderBinarySearchTree(BinaryTree BST)
     return true;
 }
 
-// 二叉排序树的查找
-bool SearchBinarySearchTree(BinaryTree BST, ElemType element_value, BinaryTreeNode* &target_node ,BinaryTreeNode* &parent_node)
+// 二叉排序树的查找（非递归版本）
+BinaryTreeNode* SearchBinarySearchTree(BinaryTree BST, ElemType element_value)
 {
-    target_node = BST;
-    while (target_node != NULL && target_node->data != element_value)
+    BinaryTreeNode* temp_node = BST;
+    while (temp_node != NULL && temp_node->data != element_value)
     {
-        parent_node = target_node;
-        if (element_value > target_node->data)
+        if (element_value > temp_node->data)
         {
-            target_node = target_node->right_child;
+            temp_node = temp_node->right_child;
         }
         else
         {
-            target_node = target_node->left_child;
+            temp_node = temp_node->left_child;
         }
     }
-    if (target_node == NULL)
+    // 查找失败
+    if (temp_node == NULL)
     {
-        return false;
+        return NULL;
     }
-    return true;
+    return temp_node;
+}
+
+// 二叉排序树的查找（递归版本）
+BinaryTreeNode* SearchBinarySearchTreeUsingRecursion(BinaryTree BST, ElemType element_value)
+{
+    if (BST == NULL)
+    {
+        return NULL;
+    }
+    if (BST->data == element_value)
+    {
+        return BST;
+    }
+    if (element_value > BST->data)
+    {
+        return SearchBinarySearchTreeUsingRecursion(BST->right_child, element_value);
+    }
+    else
+    {
+        return SearchBinarySearchTreeUsingRecursion(BST->left_child, element_value);
+    }
 }
 
 int main()
@@ -144,15 +165,7 @@ int main()
     InOrderBinarySearchTree(BST);
     printf("\n");
     BinaryTreeNode* target_node = NULL;
-    BinaryTreeNode* parent_node = NULL;
-    SearchBinarySearchTree(BST, 54, target_node, parent_node);
-    if (target_node == NULL)
-    {
-        printf("Search is failed!");
-    }
-    else
-    {
-        printf("Search is successful!");
-    }
+    target_node = SearchBinarySearchTreeUsingRecursion(BST, 20);
+    printf("\n");
     return 0;
 }

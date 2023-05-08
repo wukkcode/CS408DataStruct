@@ -29,7 +29,7 @@ bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
         return true;
     }
 
-    // 插入的是非根节点，要先找到合适的插入位置
+    // 插入的是非根节点，要先找到合适的插入位置(从根节点开始遍历)
     BinaryTreeNode* inserted_pos = BST;
     BinaryTreeNode* inserted_pos_parent;
     while (inserted_pos != NULL)

@@ -40,7 +40,7 @@ $h$层$m$阶B树至少包含关键字总数$1+2(k-1)(1 + k + k^2 + ... + k^{h-2}
 
 若关键字总数少于这个值，则高度一定小于$h$，因此$n \geqslant 1+ 2(k^{h-1}-1)$
 
-则$h \leqslant \log_k \frac{n+1}{2} + 1 = \log_{\lceil m / 2 \rceil}\frac{n+1}{2}$
+则$h \leqslant \log_k \frac{n+1}{2} + 1 = \log_{\lceil m / 2 \rceil}\frac{n+1}{2}+1$
 
 #### 解法2
 

@@ -17,6 +17,8 @@ https://www.mubucm.com/doc/4uRLDGsGgXv
 
 https://www.mubucm.com/doc/5nvAspIKYAv
 
+课程以王道为主，网易MOOC上华科的《组成原理》为辅
+
 ## 操作系统
 
 ## 计算机网络

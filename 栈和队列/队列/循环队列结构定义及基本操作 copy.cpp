@@ -9,17 +9,17 @@ typedef struct
     ElemType data[MaxSize];
     int front;
     int rear;
-} CircleSequenceQuence;
+} CircleSequenceQueue;
 
 // 循环队列的初始化
-void InitCircleSequenceQueue(CircleSequenceQuence &CSQ)
+void InitCircleSequenceQueue(CircleSequenceQueue &CSQ)
 {
     CSQ.front = 0;
     CSQ.rear = 0;
 }
 
 // 判断循环队列是否为空
-bool CircleSequenceQueueIsEmpty(CircleSequenceQuence CSQ)
+bool CircleSequenceQueueIsEmpty(CircleSequenceQueue CSQ)
 {
     if (CSQ.front == CSQ.rear)
     {
@@ -28,8 +28,9 @@ bool CircleSequenceQueueIsEmpty(CircleSequenceQuence CSQ)
     return false;
 }
 
-// 判断循环队列是否为满
-bool CircleSequenceQueueIsFull(CircleSequenceQuence CSQ)
+// 判断循环队列是否为满（这里采用牺牲一个存储单元隐式指出）
+// 其它的方式：在结构中增加循环队列的长度元素或者tag元素来显式指出
+bool CircleSequenceQueueIsFull(CircleSequenceQueue CSQ)
 {
     if ((CSQ.rear + 1) % MaxSize == CSQ.front)
     {
@@ -38,8 +39,17 @@ bool CircleSequenceQueueIsFull(CircleSequenceQuence CSQ)
     return false;
 }
 
+int GetLengthOfCircleSequenceQueue(CircleSequenceQueue CSQ)
+{
+    if (CircleSequenceQueueIsEmpty(CSQ) == true)
+    {
+        return 0;
+    }
+    return (CSQ.rear-CSQ.front+MaxSize) % MaxSize;
+}
+
 // 进队
-bool EnCircleSequenceQueue(CircleSequenceQuence &CSQ, ElemType value)
+bool EnCircleSequenceQueue(CircleSequenceQueue &CSQ, ElemType value)
 {
     if (CircleSequenceQueueIsFull(CSQ) == true)
     {
@@ -51,7 +61,7 @@ bool EnCircleSequenceQueue(CircleSequenceQuence &CSQ, ElemType value)
 }
 
 // 出队
-bool DeCircleSequenceQueue(CircleSequenceQuence &CSQ, ElemType &value)
+bool DeCircleSequenceQueue(CircleSequenceQueue &CSQ, ElemType &value)
 {
     if (CircleSequenceQueueIsEmpty(CSQ) == true)
     {
@@ -63,7 +73,7 @@ bool DeCircleSequenceQueue(CircleSequenceQuence &CSQ, ElemType &value)
 }
 
 // 获取队头元素
-bool GetHeadFromCircleSequenceQueue(CircleSequenceQuence CSQ, ElemType &value)
+bool GetHeadFromCircleSequenceQueue(CircleSequenceQueue CSQ, ElemType &value)
 {
     if (CircleSequenceQueueIsEmpty(CSQ) == true)
     {
@@ -75,12 +85,14 @@ bool GetHeadFromCircleSequenceQueue(CircleSequenceQuence CSQ, ElemType &value)
 
 int main()
 {
-    CircleSequenceQuence CSQ;
+    CircleSequenceQueue CSQ;
     InitCircleSequenceQueue(CSQ);
     for (int i = 0; i < 5; i++)
     {
         EnCircleSequenceQueue(CSQ, i + 1);
     }
+    int length = GetLengthOfCircleSequenceQueue(CSQ);
+    printf("CSQ's length = %d", length);
     ElemType value;
     DeCircleSequenceQueue(CSQ, value);
     printf("Queue head value = %d\n", value);

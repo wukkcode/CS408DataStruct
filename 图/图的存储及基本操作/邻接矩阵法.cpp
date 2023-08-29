@@ -30,7 +30,7 @@ int main()
             else
             {
                 graph.edge[i][j] = 1;
-                graph.edge_num++;
+                graph.edge_num++; // 最终结构为无向图的总度数
             }
         }
     }

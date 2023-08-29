@@ -15,8 +15,8 @@ typedef char VertexType;
 // 边节点的结构
 typedef struct ArcNode
 {
-    int vertex_node_index; // 边所指向节点的下标
-    struct ArcNode* next; // 指向下一条边
+    int vertex_node_index; // 边所指向节点的下标（注意无向图）
+    struct ArcNode* next_arc; // 指向下一条边
     // int weight; // 边的权值
 } ArcNode;
 
@@ -24,7 +24,7 @@ typedef struct ArcNode
 typedef struct VertexNode
 {
     VertexType data; // 节点信息
-    ArcNode* next; // 指向第一条边
+    ArcNode* first_arc; // 指向第一条边
 } VertexNode, AdjacencyList[MaxVertexNum];
 
 // 图的邻接表存储

@@ -34,6 +34,7 @@ bool TopologicalSorting(AdjacencyListGraph ALG, int vertex_in_degree[MaxVertexNu
     int vertex_index;
     for (vertex_index = 0; vertex_index < MaxVertexNum; vertex_index++)
     {
+        // 入度为0的节点入栈
         if (vertex_in_degree[vertex_index] == 0)
         {
             PushLinkStack(LS, vertex_index);

@@ -12,21 +12,15 @@ typedef struct LinkStackNode
 } LinkStackNode, *LinkStack;
 
 // 初始化链栈
-bool InitLinkStack(LinkStack &LS)
+void InitLinkStack(LinkStack &LS)
 {
-    LS = (LinkStackNode *)malloc(sizeof(LinkStackNode));
-    if (LS == NULL)
-    {
-        return false;
-    }
-    LS->next = NULL;
-    return true;
+   LS = NULL;
 }
 
 // 判断链栈是否为空
 bool LinkStackIsEmpty(LinkStack LS)
 {
-    if (LS->next == NULL)
+    if (LS == NULL)
     {
         return true;
     }
@@ -34,7 +28,7 @@ bool LinkStackIsEmpty(LinkStack LS)
 }
 
 // 进栈
-bool PushLinkStack(LinkStack LS, ElemType node_value)
+bool PushLinkStack(LinkStack &LS, ElemType node_value)
 {
     LinkStackNode* pushed_node = (LinkStackNode *)malloc(sizeof(LinkStackNode));
     if (pushed_node == NULL)
@@ -42,13 +36,14 @@ bool PushLinkStack(LinkStack LS, ElemType node_value)
         return false;
     }
     pushed_node->data = node_value;
-    pushed_node->next = LS->next;
-    LS->next = pushed_node;
+    pushed_node->next = NULL;
+    pushed_node->next = LS;
+    LS = pushed_node;
     return true;
 }
 
 // 出栈
-bool PopLinkStack(LinkStack LS, ElemType &node_value)
+bool PopLinkStack(LinkStack &LS, ElemType &node_value)
 {
     if (LinkStackIsEmpty(LS) == true)
     {
@@ -59,22 +54,21 @@ bool PopLinkStack(LinkStack LS, ElemType &node_value)
     {
         return false;
     }
-    popped_node = LS->next;
-    LS->next = popped_node->next;
+    popped_node = LS;
+    LS = popped_node->next;
     node_value = popped_node->data;
     free(popped_node);
     return true;
 }
 
 // 获取栈顶元素
-
 bool GetTopElement(LinkStack LS, ElemType &node_value)
 {
     if (LinkStackIsEmpty(LS) == true)
     {
         return false;
     }
-    node_value = LS->next->data;
+    node_value = LS->data;
     return true;
 }
 

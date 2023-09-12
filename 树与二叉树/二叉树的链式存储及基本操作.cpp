@@ -34,7 +34,7 @@ bool CreateBinaryTreeByLevelOrder(BinaryTree &BT, ElemType tree_node_value, Link
 }
 
 // 先序遍历二叉树（深度优先遍历）
-bool PreOrderBinaryTree(BinaryTree BT)
+bool    (BinaryTree BT)
 {
     if (BT == NULL)
     {
@@ -59,7 +59,7 @@ bool InOrderBinaryTree(BinaryTree BT)
     return true;
 }
 
-// 后序遍历二叉树
+// 后序遍历二叉树（深度优先遍历）
 bool PostOrderBinaryTree(BinaryTree BT)
 {
     if (BT == NULL)

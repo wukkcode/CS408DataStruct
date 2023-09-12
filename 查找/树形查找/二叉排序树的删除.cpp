@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef int KeyType;
 typedef int ElemType;
 typedef struct BinaryTreeNode
 {
+    KeyType key_value;
     ElemType data;
     struct BinaryTreeNode* left_child;
     struct BinaryTreeNode* right_child;
 } BinaryTreeNode, *BinaryTree;
 
 // 二叉排序树插入（非递归）
-bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
+bool InsertBinarySearchTree(BinaryTree &BST, KeyType key_vale)
 {
     // 新节点申请空间
     BinaryTreeNode* new_node = (BinaryTreeNode *)malloc(sizeof(BinaryTreeNode));
@@ -18,7 +20,7 @@ bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
     {
         return false;
     }
-    new_node->data = element_value;
+    new_node->data = key_vale;
     new_node->left_child = NULL;
     new_node->right_child = NULL;
 
@@ -35,11 +37,11 @@ bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
     while (inserted_pos != NULL)
     {
         inserted_pos_parent = inserted_pos;
-        if (element_value == inserted_pos->data)
+        if (key_vale == inserted_pos->data)
         {
             return false;
         }
-        else if (element_value > inserted_pos->data)
+        else if (key_vale > inserted_pos->data)
         {
             inserted_pos = inserted_pos->right_child;
         }
@@ -49,7 +51,7 @@ bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
         }
     }
     // 判断插入左孩子还是右孩子
-    if (element_value > inserted_pos_parent->data)
+    if (key_vale > inserted_pos_parent->data)
     {
         inserted_pos_parent->right_child = new_node;
     }
@@ -61,7 +63,7 @@ bool InsertBinarySearchTree(BinaryTree &BST, ElemType element_value)
 }
 
 // 二叉排序树的插入（递归）
-bool InsertBinarySearchTreeUsingRecursion(BinaryTree &BST, ElemType element_value)
+bool InsertBinarySearchTreeUsingRecursion(BinaryTree &BST, KeyType key_vale)
 {
     if (BST == NULL)
     {
@@ -70,27 +72,27 @@ bool InsertBinarySearchTreeUsingRecursion(BinaryTree &BST, ElemType element_valu
         {
             return false;
         }
-        BST->data = element_value;
+        BST->data = key_vale;
         BST->left_child = NULL;
         BST->right_child = NULL;
     }
-    else if (element_value == BST->data)
+    else if (key_vale == BST->data)
     {
         return false;
     }
-    else if (element_value < BST->data)
+    else if (key_vale < BST->data)
     {
-        return InsertBinarySearchTreeUsingRecursion(BST->left_child, element_value);
+        return InsertBinarySearchTreeUsingRecursion(BST->left_child, key_vale);
     }
     else
     {
-        return InsertBinarySearchTreeUsingRecursion(BST->right_child, element_value);
+        return InsertBinarySearchTreeUsingRecursion(BST->right_child, key_vale);
     }
     return true;
 }
 
 // 创建二叉排序树（调用插入操作）
-bool CreateBinarySearchTree(BinaryTree &BST, ElemType *element_array, int length)
+bool CreateBinarySearchTree(BinaryTree &BST, KeyType *element_array, int length)
 {
     for (int i = 0; i < length; i++)
     {
@@ -113,21 +115,21 @@ bool InOrderBinarySearchTree(BinaryTree BST)
 }
 
 // 二叉排序树的删除
-void DeleteBinarySearchTree(BinaryTree &BST, ElemType element_value)
+bool DeleteBinarySearchTree(BinaryTree &BST, KeyType key_vale)
 {
     if (BST == NULL)
     {
-        return;
+        return false;
     }
     // 要删除的节点在右子树
-    if (element_value > BST->data)
+    if (key_vale > BST->key_value)
     {
-        DeleteBinarySearchTree(BST->right_child, element_value);
+        DeleteBinarySearchTree(BST->right_child, key_vale);
     }
     // 要删除的节点在左子树
-    else if (element_value < BST->data)
+    else if (key_vale < BST->key_value)
     {
-        DeleteBinarySearchTree(BST->left_child, element_value);
+        DeleteBinarySearchTree(BST->left_child, key_vale);
     }
     // 找到要删除的节点了
     else
@@ -154,16 +156,17 @@ void DeleteBinarySearchTree(BinaryTree &BST, ElemType element_value)
                 temp_node = temp_node->right_child;
             }
             BST->data = temp_node->data;
-            DeleteBinarySearchTree(BST->left_child, temp_node->data);
+            DeleteBinarySearchTree(BST->left_child, temp_node->key_value);
         }
     }
+    return true;
 }
 
 int main()
 {
     BinaryTree BST = NULL;
 
-    ElemType element_array[7] = {54, 20, 66, 40, 28, 79, 58};
+    KeyType element_array[7] = {54, 20, 66, 40, 28, 79, 58};
     CreateBinarySearchTree(BST, element_array, 7);
     InOrderBinarySearchTree(BST);
     printf("\n");

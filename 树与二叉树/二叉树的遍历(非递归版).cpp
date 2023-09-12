@@ -46,11 +46,13 @@ bool InOrderBinaryTree(BinaryTree BT)
     BinaryTreeNode* current_tree_node = BT;
     while (current_tree_node != NULL || LinkStackIsEmpty(LS) != true)
     {
+        // 当前节点不为空，将当前节点入栈
         if (current_tree_node != NULL)
         {
             PushLinkStack(LS, current_tree_node);
             current_tree_node = current_tree_node->left_child;
         }
+        // 直到当前节点的左孩子为空，需要出栈并访问，然后右边孩子（如果有）入栈
         else
         {
             PopLinkStack(LS, current_tree_node);

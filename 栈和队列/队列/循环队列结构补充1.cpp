@@ -7,7 +7,7 @@
 #define MaxSize 50
 
 typedef int ElemType;
-//循环队列结构实现方式1：牺牲一个存储单元来区分队空还是队满
+//循环队列结构实现方式2：添加额外的成员变量length
 typedef struct
 {
     ElemType data[MaxSize];

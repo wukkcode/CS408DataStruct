@@ -80,7 +80,7 @@ bool DeLinkListQueue(LinkListQueue &LLQ, ThreadBinaryTreeNode* &tbtn)
     return true;
 }
 
-// 创建线索二叉树
+// 创建线索二叉树（中序遍历）
 bool CreateThreadBinaryTreeByLevelOrder(ThreadBinaryTree &TBT, LinkListQueue &LLQ, ElemType tree_node_value)
 {
     ThreadBinaryTreeNode* new_tree_node = (ThreadBinaryTreeNode *)malloc(sizeof(ThreadBinaryTreeNode));
@@ -143,36 +143,38 @@ bool LevelThreadBinaryTree(ThreadBinaryTree TBT)
 }
 
 // 通过中序遍历将二叉树线索化
-bool ThreadedBinaryTreeByInOrder(ThreadBinaryTree TBT, ThreadBinaryTreeNode* &pre_tree_node)
+bool InThreading(ThreadBinaryTreeNode* &current_node, ThreadBinaryTreeNode* &pre_tree_node)
 {
-    if (TBT == NULL)
+    if (current_node == NULL)
     {
         return false;
     }
-    ThreadedBinaryTreeByInOrder(TBT->left_child, pre_tree_node);
-    if (TBT->left_child == NULL)
+    InThreading(current_node->left_child, pre_tree_node);
+    // 当前节点找前驱进行线索化
+    if (current_node->left_child == NULL)
     {
-        TBT->left_child = pre_tree_node;
-        TBT->left_tag = 1;
+        current_node->left_child = pre_tree_node;
+        current_node->left_tag = 1;
     }
-    if (pre_tree_node != NULL && pre_tree_node->right_child == NULL)
+    // pre_tree_node找后继（当前节点）进行线索化
+    if (pre_tree_node != NULL && pre_tree_node->right_child == NULL) 
     {
-        pre_tree_node->right_child = TBT;
+        pre_tree_node->right_child = current_node;
         pre_tree_node->right_tag = 1;
     }
-    pre_tree_node = TBT;
-    ThreadedBinaryTreeByInOrder(TBT->right_child, pre_tree_node);
+    pre_tree_node = current_node;
+    InThreading(current_node->right_child, pre_tree_node);
     return true;
 }
 
-bool ThreadedBinaryTreeByInOrderFinalProcess(ThreadBinaryTree TBT)
+bool CreateInOrderThreadBinaryTree(ThreadBinaryTree TBT)
 {
     if (TBT == NULL)
     {
         return false;
     }
     ThreadBinaryTreeNode* pre_tree_node = NULL;
-    ThreadedBinaryTreeByInOrder(TBT, pre_tree_node);
+    InThreading(TBT, pre_tree_node);
     if (pre_tree_node->right_child == NULL)
     {
         pre_tree_node->right_tag = 1;
@@ -181,6 +183,7 @@ bool ThreadedBinaryTreeByInOrderFinalProcess(ThreadBinaryTree TBT)
 }
 
 // 中序遍历线索二叉树(找后继)
+// 1. 找中序遍历中第一个被遍历的节点
 ThreadBinaryTreeNode* FindFirstTreeNode(ThreadBinaryTreeNode* current_tree_node)
 {
     while (current_tree_node->left_tag == 0)
@@ -189,12 +192,12 @@ ThreadBinaryTreeNode* FindFirstTreeNode(ThreadBinaryTreeNode* current_tree_node)
     }
     return current_tree_node;
 }
-
+// 2. 找当前节点的下一个后继节点
 ThreadBinaryTreeNode* FindNextTreeNode(ThreadBinaryTreeNode* current_tree_node)
 {
     if (current_tree_node->right_tag == 0)
     {
-        return FindFirstTreeNode(current_tree_node->right_child); // 无线索找最左下的节点
+        return FindFirstTreeNode(current_tree_node->right_child); 
     }
     else
     {
@@ -216,6 +219,8 @@ bool InOrderThreadBinaryTree(ThreadBinaryTree TBT)
 }
 
 // （逆向）中序遍历线索二叉树（找前驱）
+
+// 1. 找中序遍历中最后一个被遍历的节点
 ThreadBinaryTreeNode* FindLastTreeNode(ThreadBinaryTreeNode* current_tree_node)
 {
     while (current_tree_node->right_tag == 0)
@@ -225,6 +230,7 @@ ThreadBinaryTreeNode* FindLastTreeNode(ThreadBinaryTreeNode* current_tree_node)
     return current_tree_node;
 }
 
+// 2. 找当前节点的上一个节点
 ThreadBinaryTreeNode* FindPreTreeNode(ThreadBinaryTreeNode* current_tree_node)
 {
     if (current_tree_node->left_tag == 0)
@@ -249,79 +255,77 @@ bool ReverseInOrderThreadTree(ThreadBinaryTree TBT)
     }
 }
 
-// 通过先序遍历将二叉树线索化，可能会发生爱的魔力转圈圈问题（读者画个只有左子树的树进行理解）
-bool ThreadedBinaryTreeByPreOrder(ThreadBinaryTree TBT, ThreadBinaryTreeNode* &pre_tree_node)
+// 通过先序遍历将二叉树线索化，可能会发生爱的魔力转圈圈问题（读者画个只有左子树的二叉树树进行理解）
+bool PreThreading(ThreadBinaryTreeNode* &current_node, ThreadBinaryTreeNode* &pre_tree_node)
 {
-    if (TBT == NULL)
+    if (current_node == NULL)
     {
         return false;
     }
-    if (TBT->left_child == NULL)
+    if (current_node->left_child == NULL)
     {
-        TBT->left_child = pre_tree_node;
-        TBT->left_tag = 1;
+        current_node->left_child = pre_tree_node;
+        current_node->left_tag = 1;
     }
     if (pre_tree_node != NULL && pre_tree_node->right_child == NULL)
     {
-        pre_tree_node->right_child = TBT;
+        pre_tree_node->right_child = current_node;
         pre_tree_node->right_tag = 1;
     }
-    pre_tree_node = TBT;
-    if (TBT->left_tag == 0)
+    pre_tree_node = current_node;
+    if (current_node->left_tag == 0)
     {
-        ThreadedBinaryTreeByPreOrder(TBT->left_child, pre_tree_node);
+        PreThreading(current_node->left_child, pre_tree_node);
     }
-    if (TBT->right_tag == 0)
-    {
-        ThreadedBinaryTreeByPreOrder(TBT->right_child, pre_tree_node);
-    }
-    return true;
+
+    PreThreading(current_node->right_child, pre_tree_node);
+
 }
 
-bool ThreadedBinaryTreeByPreOrderFinalProcess(ThreadBinaryTree TBT)
+bool CreatePreOrderThreadBinaryTree(ThreadBinaryTree TBT)
 {
     if (TBT == NULL)
     {
         return false;
     }
     ThreadBinaryTreeNode* pre_tree_node = NULL;
-    ThreadedBinaryTreeByPreOrder(TBT, pre_tree_node);
+    PreThreading(TBT, pre_tree_node);
     pre_tree_node->right_child = NULL;
     pre_tree_node->right_tag = 1;
     return true;
 }
 
 // 通过后序遍历将二叉树线索化
-bool ThreadedBinaryTreeByPostOrder(ThreadBinaryTree TBT, ThreadBinaryTreeNode* &pre_tree_node)
+bool PostThreading(ThreadBinaryTreeNode* &current_node, ThreadBinaryTreeNode* &pre_tree_node)
 {
-    if (TBT == NULL)
+    if (current_node == NULL)
     {
         return false;
     }
-    ThreadedBinaryTreeByPostOrder(TBT->left_child, pre_tree_node);
-    ThreadedBinaryTreeByPostOrder(TBT->right_child, pre_tree_node);
-    if (TBT->left_child == NULL)
+    PostThreading(current_node->left_child, pre_tree_node);
+    PostThreading(current_node->right_child, pre_tree_node);
+    if (current_node->left_child == NULL)
     {
-        TBT->left_child = pre_tree_node;
-        TBT->left_tag = 1;
+        current_node->left_child = pre_tree_node;
+        current_node->left_tag = 1;
     }
     if (pre_tree_node != NULL && pre_tree_node->right_child == NULL)
     {
-        pre_tree_node->right_child = TBT;
+        pre_tree_node->right_child = current_node;
         pre_tree_node->right_tag = 1;
     }
-    pre_tree_node = TBT;
+    pre_tree_node = current_node;
     return true;
 }
 
-bool ThreadedBinaryTreeByPostOrderFinalProcess(ThreadBinaryTree TBT)
+bool CreatePostOrderThreadBinaryTree(ThreadBinaryTree TBT)
 {
     if (TBT == NULL)
     {
         return false;
     }
     ThreadBinaryTreeNode* pre_tree_node = NULL;
-    ThreadedBinaryTreeByPostOrder(TBT, pre_tree_node);
+    PostThreading(TBT, pre_tree_node);
     if (pre_tree_node->right_child == NULL)
     {
         pre_tree_node->right_tag = 1;
@@ -345,7 +349,7 @@ int main()
     LevelThreadBinaryTree(TBT);
     printf("\n");
     printf("Start InOrder Threaded!!!\n");
-    ThreadedBinaryTreeByInOrderFinalProcess(TBT);
+    CreateInOrderThreadBinaryTree(TBT);
     printf("In order is:");
     InOrderThreadBinaryTree(TBT);
     printf("\n");

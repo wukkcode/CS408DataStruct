@@ -25,49 +25,85 @@ void InitSequenceBinaryTree(SequenceBinaryTree &SBT)
 }
 
 // 找节点的左孩子
-bool FindLeftChildNode(SequenceBinaryTree SBT,int node_index, int number, SBTNode &SBTN)
+int FindLeftChildNode(SequenceBinaryTree SBT,int node_index, int node_number)
 {
     // 判断完全二叉树是否有左孩子
-    if (2 * node_index > number)
+    if (node_index * 2 > node_number || node_index < 1)
     {
-        return false;
+        return -1;
     }
-    SBTN = SBT[node_index * 2];
-    return true;
+    return node_index * 2;
 }
 
 // 找节点的右孩子
-bool FindRightChildNode(SequenceBinaryTree SBT,int node_index, int number, SBTNode &SBTN)
+int FindRightChildNode(SequenceBinaryTree SBT,int node_index, int node_number)
 {
     // 判断完全二叉树是否有右孩子
-    if (2 * node_index + 1 > number)
+    if (2 * node_index + 1 > node_number || node_index < 1)
     {
-        return false;
+        return -1;
     }
-    SBTN = SBT[node_index * 2 + 1];
-    return true;
+    return node_index * 2 + 1;
 }
 
 // 找节点的父节点
-bool FindFatherNode(SequenceBinaryTree SBT, int node_index, int number, SBTNode &SBTN)
+bool FindFatherNode(SequenceBinaryTree SBT, int node_index, int node_number)
 {
     // 判断节点node_index合不合理
-    if (node_index == 1 || node_index > number)
+    if (node_index <= 1 || node_index > node_number)
     {
-        return false;
+        return -1;
     }
-    SBTN = SBT[node_index / 2];
-    return true;
+    return node_index / 2;
 }
 
 // 判断节点是否是叶子节点/分支节点
-bool SBTNodeIsLeafNode(SequenceBinaryTree SBT, int node_index, int number)
+bool SBTNodeIsLeafNode(SequenceBinaryTree SBT, int node_index, int node_number)
 {
-    if (node_index > number / 2)
+    if (node_index > node_number / 2)
     {
         return true; // 是叶子节点
     }
     return false; // 不是叶子节点
+}
+
+// 先序遍历
+bool PreOrderBinaryTree(SequenceBinaryTree SBT, int current_node_index, int node_number)
+{
+    if (current_node_index >= 1 && current_node_index <= node_number)
+    {
+        printf("%d ", SBT[current_node_index].data);
+        PreOrderBinaryTree(SBT, FindLeftChildNode(SBT, current_node_index, node_number), node_number);
+        PreOrderBinaryTree(SBT, FindRightChildNode(SBT, current_node_index, node_number), node_number);
+        return true;
+    }
+    return false;
+}
+
+// 中序遍历
+bool InOrderBinaryTree(SequenceBinaryTree SBT, int current_node_index, int node_number)
+{
+    if (current_node_index >= 1 && current_node_index <= node_number)
+    {
+        InOrderBinaryTree(SBT, FindLeftChildNode(SBT, current_node_index, node_number), node_number);
+        printf("%d ", SBT[current_node_index].data);
+        InOrderBinaryTree(SBT, FindRightChildNode(SBT, current_node_index, node_number), node_number);
+        return true;
+    }
+    return false;
+}
+
+// 后序遍历
+bool PostOrderBinaryTree(SequenceBinaryTree SBT, int current_node_index, int node_number)
+{
+    if (current_node_index >= 1 && current_node_index <= node_number)
+    {
+        PostOrderBinaryTree(SBT, FindLeftChildNode(SBT, current_node_index, node_number), node_number);
+        PostOrderBinaryTree(SBT, FindRightChildNode(SBT, current_node_index, node_number), node_number);
+        printf("%d ", SBT[current_node_index].data);
+        return true;
+    }
+    return false;
 }
 
 int main()
@@ -78,21 +114,11 @@ int main()
     {
         SBT[i].data = i;
         SBT[i].empty_status = false;
-    } 
-    SBTNode SBTN;
-    FindLeftChildNode(SBT, 2, 12, SBTN);
-    printf("left child = %d\n", SBTN.data);
-    FindRightChildNode(SBT, 2, 12, SBTN);
-    printf("right child = %d\n", SBTN.data);
-    FindFatherNode(SBT, 4, 12, SBTN);
-    printf("father = %d\n", SBTN.data);
-    if (SBTNodeIsLeafNode(SBT, 2, 12) == true)
-    {
-        printf("current node is a leaf node!\n");
     }
-    else
-    {
-        printf("current node is not a leaf node!\n");
-    }
+    PreOrderBinaryTree(SBT, 1, 12);
+    printf("\n");
+    InOrderBinaryTree(SBT, 1, 12);
+    printf("\n");
+    PostOrderBinaryTree(SBT, 1, 12);
     return 0;
 }

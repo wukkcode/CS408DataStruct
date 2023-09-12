@@ -1,16 +1,17 @@
 
 
-void Prim(G, T)
+void Prim(G, TE)
 {
-    T = {}; // 初始化生成树的边节点集合为空集
-    U = {w};
+    TE = {}; // 初始化书的边集为空
+    U = {w}; // 添加一个任意节点
     while (G.V-U != {})
     {
-        min_arc = (u∈U, v∈(V-U));
-        T = {min_arc} ∪ T;
+        设(u,v)是使u属于U与v属于(U-V)，且权值最小的边;
+        TE = TE ∪ {(u, v)};
         U = U ∪ {v};
     }
 }
+
 
 void Kruskal(G, T)
 {

@@ -28,8 +28,7 @@ bool CircleSequenceQueueIsEmpty(CircleSequenceQueue CSQ)
     return false;
 }
 
-// 判断循环队列是否为满（这里采用牺牲一个存储单元隐式指出）
-// 其它的方式：在结构中增加循环队列的长度元素或者tag元素来显式指出
+// 判断循环队列是否为满
 bool CircleSequenceQueueIsFull(CircleSequenceQueue CSQ)
 {
     if ((CSQ.rear + 1) % MaxSize == CSQ.front)
@@ -39,6 +38,7 @@ bool CircleSequenceQueueIsFull(CircleSequenceQueue CSQ)
     return false;
 }
 
+// 计算循环队列的长度
 int GetLengthOfCircleSequenceQueue(CircleSequenceQueue CSQ)
 {
     if (CircleSequenceQueueIsEmpty(CSQ) == true)

@@ -11,6 +11,7 @@ typedef struct
 
 // 折半查找的算法效率要比顺序查找的算法优秀的多，但前提是线性表（这里指的是顺序存储的线性表）是有序的，所以有得必有失..
 // 读者着重思考一下，查找判定树的构造以及其性质，这才是考察的重点
+
 int BinarySearch(StaticSequenceList SSL, int element_value)
 {
     int low_index = 0;

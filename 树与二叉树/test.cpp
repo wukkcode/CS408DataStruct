@@ -1,11 +1,30 @@
 
+#include <stdio.h>
 
-typedef int KeyType;
-typedef struct RedBlackTreeNode
+for (int i = 0; i < n; i++)
 {
-    KeyType key_value;
-    struct RedBlackTreeNode* parent_node;
-    struct RedBlackTreeNode* left_child;
-    struct RedBlackTreeNode* right_child;
-    int node_color;
-} RedBlackTreeNode, *RedBlackTree;
+    a[i] = a[i] + 1;
+    // 或者
+    a[i]++; 
+}
+
+
+int global_var = 1;
+
+int main()
+{
+    static static_var = 2;
+    printf("hello world");
+}
+
+void user_programme()
+{
+    const const_var = 1;
+    for (){}
+    while(){}
+}
+
+
+
+
+

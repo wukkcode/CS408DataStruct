@@ -1,6 +1,5 @@
 /*
-4. 从有序顺序表中删除其值在给定值s与f之间(要求s<t)的所有元素，若s或，不合理
-或顺序表为空，则显示出错信息并退出运行。
+4. 从有序顺序表中删除其值在给定值s与t之间(要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错信息并退出运行。
 思考：这一段代码实现非常精简巧妙，值得揣摩思考
 */
 
@@ -48,7 +47,8 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
     return true;
 }
 
-// 删除顺序表指定范围的元素
+// 删除有序顺序表指定范围的元素
+
 bool DeleteAllElementAtRange(StaticSequenceList &SSL, ElemType left_value, ElemType right_value)
 {
     if (StaticSequenceListIsEmpty(SSL) == true)
@@ -58,10 +58,9 @@ bool DeleteAllElementAtRange(StaticSequenceList &SSL, ElemType left_value, ElemT
     int left_index, right_index;
     // 找到顺序表中第一个大于等于left_value的下标
     for (left_index = 0; left_index < SSL.length && SSL.data[left_index] < left_value; left_index++);
-    // 顺序表中所有元素都小于left_value则返回false
     if (left_index >= SSL.length)
     {
-        return false;
+        return false; // 有序顺序表中的所有元素都小于left_value，则直接进行返回
     }
     // 找到顺序表中第一个大于right_value的下标
     for (right_index = left_index; right_index < SSL.length && SSL.data[right_index] <= right_value; right_index++);

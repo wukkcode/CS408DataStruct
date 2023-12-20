@@ -17,7 +17,7 @@ typedef struct ArcNode
 {
     int vertex_node_index; // 边所指向节点的下标（注意无向图）
     struct ArcNode* next_arc; // 指向下一条边
-    // int weight; // 边的权值
+    // int weight; // 边的权值，适用于有权图
 } ArcNode;
 
 // 顶点结构

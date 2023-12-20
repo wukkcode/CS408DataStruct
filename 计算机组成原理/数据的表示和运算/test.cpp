@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-
 int main()
 {
-    short x = -4321;
-    int y = (int) x;
+    double x = 1.0;
+    float y = 1.0;
+    bool result = x == y;
 }
 

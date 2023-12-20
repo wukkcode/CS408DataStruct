@@ -54,22 +54,22 @@ ElemType DeleteMinValue(StaticSequenceList &SSL)
     {
         return -9999;
     }
-    ElemType min = SSL.data[0];
-    int pos = 0;
+    ElemType min_value = SSL.data[0];
+    int min_pos = 0;
     for (int i = 1; i < SSL.length; i++)
     {
-        if (min > SSL.data[i])
+        if (min_value > SSL.data[i])
         {
-            min = SSL.data[i];
-            pos = i;
+            min_value = SSL.data[i];
+            min_pos = i;
         }
     }
-    if (pos != SSL.length - 1)
+    if (min_pos != SSL.length - 1)
     {
-        SSL.data[pos] = SSL.data[SSL.length-1];
+        SSL.data[min_pos] = SSL.data[SSL.length-1];
     }
     SSL.length--;
-    return min;
+    return min_value;
 }
 
 

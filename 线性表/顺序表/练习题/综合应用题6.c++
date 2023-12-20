@@ -53,16 +53,17 @@ bool DeleteAllRepeatedElements(StaticSequenceList &SSL)
     {
         return false;
     }
-    int index_work;
-    int first_different;
-    for (first_different = 0, index_work = 1; index_work < SSL.length; index_work++)
+    int work_index; // 去重之后的元素应该放的位置
+    int first_different_index;
+    for (first_different_index = 0, work_index = 1; work_index < SSL.length; work_index++)
     {
-        if (SSL.data[index_work] != SSL.data[first_different])
+        if (SSL.data[work_index] != SSL.data[first_different_index])
         {
-            SSL.data[++first_different] = SSL.data[index_work];
+            first_different_index++;
+            SSL.data[first_different_index] = SSL.data[work_index];
         }
     }
-    SSL.length = first_different + 1;
+    SSL.length = first_different_index + 1;
     return true;
 }
 

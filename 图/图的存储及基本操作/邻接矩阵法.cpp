@@ -7,8 +7,8 @@ typedef int EdgeType;
 
 typedef struct
 {
-    VertexType vertex[MaxVertexNum];
-    EdgeType edge[MaxVertexNum][MaxVertexNum];
+    VertexType vertex[MaxVertexNum]; // 顶点信息
+    EdgeType edge[MaxVertexNum][MaxVertexNum]; // 边的信息
     int vertex_num;
     int edge_num;
 } AdjacencyMatrixGraph;

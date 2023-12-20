@@ -1,32 +1,103 @@
-
-
 #include <stdio.h>
-#include <stdlib.h>
-#define SingleKeyNumber 100 // 单个关键字的范围
 
-typedef int ElemType;
-typedef struct LinkListNode
+typedef MaxSize 50
+
+typedef struct LinkNode
 {
-    ElemType data;
-    struct LinkListNode *next;
-} LinkListNode;
+    char letter;
+    LinkNode *next;
+} LinkNode, *WordList;
+
+// 计算单词的长度
+int CalculateLengthOfWord(WordList word)
+{
+    int length = 0;
+    while (word->next != NULL)
+    {
+        length++;
+        word = word->next;
+    }
+    return length;
+}
+
+// 找共同后缀的第一个字母（太优雅了）
+LinkNode* FindCommonSuffix(WordList word1, WordList word2)
+{
+    int length1 = CalculateLengthOfWord(word1);
+    int length2 = CalculateLengthOfWord(word2);
+    LinkNode* str1 = word1;
+    LinkNode* str2 = word2;
+    while (length1 > length2)
+    {
+        length1--;
+        str1 = str1->next;
+    }
+    while (length2 > length1)
+    {
+        length2--;
+        str2 = str2->next;
+    }
+    while (str1->next != NULL && str1->next != str2->next)
+    {
+        str1 = str1->next;
+        str2 = str2->next;
+    }
+    return str1->next;
+}
 
 typedef struct
 {
-   LinkListNode* front;
-   LinkListNode* rear;
-} LinkQueue;
+    int data[MaxSize];
+    int length;
+} SequenceList;
 
-int main()
+
+
+SequenceList MergeLists(SequenceList sl1, SequenceList sl2)
 {
-    LinkQueue* AuxiliaryArray[SingleKeyNumber];
-    return 0;
+    SequenceList result_sl;
+    result_sl.length = sl1.length + sl2.length;
+    int i, j, k;
+    for (i = 0, j = 0, k = i; i < sl1.length && j < sl2.length;)
+    {
+        if (sl1.data[i] <= sl2.data[i])
+        {
+            result_sl.data[k++] = sl1.data[i++];
+        }
+        else
+        {
+            result_sl.data[k++] = sl2.data[j++];
+        }
+    }
+    while (i < sl1.length)
+    {
+       result_sl.data[k++] = sl1.data[i++]; 
+    }
+    while (j < sl2.length)
+    {
+        result_sl.data[k++] = sl1.data[j++];
+    }
+    return result_sl;
 }
 
-for (int i = 0; i < SingleKeyNumber-1; i++)
-{
-    AuxiliaryArray[i].rear = AuxiliaryArray[i+1].front; // 将每一个基数的辅助队列首尾相接
-    AuxiliaryArray[i] = NULL;
 
+
+// 键盘中断处理程序示例
+void keyboardInterruptHandler()
+{
+    char key = readFromKeyboardHardware(); // 从硬件读取按键
+    addToKeyboardBuffer(key); // 将按键添加到键盘控制器缓冲区
+    signalKeyboardDriver(); // 通知键盘驱动程序有新数据
 }
-AuxiliaryArray[SingleKeyNumber-1] = NULL; // 收集完成之后，最后一个基数的辅助队列置为空
+
+// 键盘驱动程序示例
+void keyboardDriver()
+{
+    while(true)
+    {
+        waitForSignalFromInterruptHandler(); // 等待来自中断处理程序的信号
+        char key = getFromKeyboardBuffer(); // 从键盘控制器缓冲区获取按键
+        processkey(key); // 处理按键
+        snedKeyToSystem(key); // 将按键发送到系统缓冲区
+    }
+}

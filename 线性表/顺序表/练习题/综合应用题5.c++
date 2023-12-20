@@ -1,6 +1,5 @@
 /*
-5.从顺序表中删除其值在给定值s与/之间(包含s和"要求5<r)的所有元素，若s或
-t不合理或顺序表为空，则显示出错信息并退出运行。
+5.从顺序表中删除其值在给定值s与t之间(包含s和t，要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错信息并退出运行。
 注意：与第四题不同的是这里的顺序表不要求有序，则可以用第三道题的解法来做
 */
 
@@ -49,6 +48,7 @@ bool TraverseStaticSequenceList(StaticSequenceList SSL)
 }
 
 // 方法一：用一个num变量计数在这个范围内的元素的个数，然后将剩余的元素依次向前移动num个位置
+
 bool DeleteAllElementAtRange_fun1(StaticSequenceList &SSL, ElemType left_value, ElemType right_value)
 {
     if (StaticSequenceListIsEmpty(SSL) == true)
